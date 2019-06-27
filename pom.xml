@@ -23,12 +23,22 @@
 	
 	<!-- Dependencias -->
 	<dependencies>
-	
+		
+		<!-- Spring Web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		
+		<!-- Spring DevTools -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope><!--só será usado enquanto estiver executando a aplicação-->
+		</dependency>
+		
+		
+		<!-- Spring Test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
