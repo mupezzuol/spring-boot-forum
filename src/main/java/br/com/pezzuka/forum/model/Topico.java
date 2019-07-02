@@ -4,17 +4,38 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Topico {
 
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String titulo;
 	private String mensagem;
 	private LocalDateTime dataCriacao = LocalDateTime.now();
+	
+	@Enumerated(EnumType.STRING)//Gravar o conteúdo do ENUM no banco
 	private StatusTopico status = StatusTopico.NAO_RESPONDIDO;
+	
+	@ManyToOne //O lado "many" da associação deve ser tornado como o dono da associação.
 	private Usuario autor;
+	
+	@ManyToOne
 	private Curso curso;
+	
+	//mappedBy -> fazemos com que o lado Many seja o dono da associação. O 'topico' é o nome do atributo da classe 'Resposta'
+	@OneToMany(mappedBy = "topico")
 	private List<Resposta> respostas = new ArrayList<>();
-
+	
+	
 	public Topico(String titulo, String mensagem, Curso curso) {
 		this.titulo = titulo;
 		this.mensagem = mensagem;

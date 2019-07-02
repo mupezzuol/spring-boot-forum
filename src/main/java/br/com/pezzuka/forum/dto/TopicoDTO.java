@@ -14,6 +14,7 @@ public class TopicoDTO {
 	private String mensagem;
 	private LocalDateTime dataCriacao;
 	
+	
 	//Constructor's
 	public TopicoDTO(Topico topico) {
 		super();
@@ -25,7 +26,7 @@ public class TopicoDTO {
 	
 	
 	//Converter com Strem do Java 8
-	//Para cada Topico que vem da lista, eu instancio um novo DTO, e esse DTO eu coloco os itens da lista
+	//Para cada Topico que vem da lista, eu instancio um novo DTO (constructor já pegando os dados de tópico passado no parametro)
 	//No final ele adc todos os DTO criado numa lista e retorna uma nova lista com todos os Topicos em formato de TopicoDTO
 	public static List<TopicoDTO> converter(List<Topico> topicos) {
 		return topicos.stream().map(TopicoDTO::new).collect(Collectors.toList());

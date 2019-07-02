@@ -18,8 +18,9 @@ public class TopicosController {
 	//@ResponseBody -> Não preciso utilizar pois estou usando o RestController que automaticamente já nos retorna um ResponseBody 
 	public List<TopicoDTO> lista(){
 		Topico t = new Topico("Dúvida", "Dúvida com Spring", new Curso("Spring", "Programação"));
+		Topico t2 = new Topico("Dúvida 2", "Dúvida com Java 8", new Curso("Java", "Programação"));
 		
-		return TopicoDTO.converter(Arrays.asList(t, t, t, t));
+		return TopicoDTO.converter(Arrays.asList(t, t2, t, t2));
 	}
 	
 	
