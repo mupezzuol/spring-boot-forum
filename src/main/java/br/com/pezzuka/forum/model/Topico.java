@@ -41,6 +41,11 @@ public class Topico {
 		this.mensagem = mensagem;
 		this.curso = curso;
 	}
+	
+	//JPA necessita de um construtor vazio
+	public Topico() {
+		
+	}
 
 	@Override
 	public int hashCode() {

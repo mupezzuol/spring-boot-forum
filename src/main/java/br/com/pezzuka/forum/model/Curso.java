@@ -18,6 +18,11 @@ public class Curso {
 		this.categoria = categoria;
 	}
 	
+	//JPA necessita de um construtor vazio
+	public Curso() {
+		
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
