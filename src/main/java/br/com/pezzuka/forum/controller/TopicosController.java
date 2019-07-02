@@ -16,10 +16,17 @@ public class TopicosController {
 	@Autowired
 	TopicoRepository topicoRepository;
 	
-	@RequestMapping("/topicos")
-	//@ResponseBody -> Não preciso utilizar pois estou usando o RestController que automaticamente já nos retorna um ResponseBody 
-	public List<TopicoDTO> lista(){
-		return TopicoDTO.converter(topicoRepository.findAll());
+	@RequestMapping("/topicos") 
+	//URI com parametro: /topicos?nomeCurso=Murillo
+	public List<TopicoDTO> lista(String nomeCurso){
+		
+		if (nomeCurso == null) {
+			return TopicoDTO.converter(topicoRepository.findAll());
+		}else {
+			//URL com Filtro -> /topicos?nomeCurso=Spring+Boot (quando temos espaço, usamos + na url)
+			return TopicoDTO.converter(topicoRepository.findByCursoNome(nomeCurso));
+		}
+		
 	}
 	
 	
