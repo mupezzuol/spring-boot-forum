@@ -3,6 +3,7 @@ package br.com.pezzuka.forum.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.pezzuka.forum.controller.form.AtualizacaoTopicoForm;
 import br.com.pezzuka.forum.controller.form.TopicoForm;
 import br.com.pezzuka.forum.dto.DetalhesTopicoDTO;
 import br.com.pezzuka.forum.dto.TopicoDTO;
@@ -50,6 +53,16 @@ public class TopicosController {
 	public DetalhesTopicoDTO detalhar(@PathVariable Long id) {
 		Topico topico = topicoRepository.getOne(id);//Retorna 1 registro
 		return new DetalhesTopicoDTO(topico);
+	}
+	
+	@PutMapping("/{id}")
+	@Transactional //Avisa o Spring a fazer o Commit no final da transação, assim ele faz o update do registro...
+	public ResponseEntity<TopicoDTO> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form) {
+		
+		//Não preciso chamar o atualização do JpaRepository, pois ao sair do método da Controller ele fará o update automático no banco
+		Topico topico = form.atualizar(id, topicoRepository);
+		
+		return ResponseEntity.ok(new TopicoDTO(topico));
 	}
 	
 	

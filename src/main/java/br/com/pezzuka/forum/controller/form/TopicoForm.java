@@ -13,7 +13,7 @@ public class TopicoForm {
 	
 	//Bean Validation faz integração com Spring (validando os dados que virão do form)
 	//Para ser chamado essas validações é preciso utilizar o '@Valid' 
-	@NotNull @NotEmpty @Length(min = 1, max = 100)
+	@NotNull @NotEmpty @Length(min = 5)
 	private String titulo;
 	
 	@NotNull @NotEmpty
