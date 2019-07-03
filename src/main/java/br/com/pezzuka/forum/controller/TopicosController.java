@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.pezzuka.forum.controller.form.TopicoForm;
+import br.com.pezzuka.forum.dto.DetalhesTopicoDTO;
 import br.com.pezzuka.forum.dto.TopicoDTO;
 import br.com.pezzuka.forum.model.Topico;
 import br.com.pezzuka.forum.repository.CursoRepository;
@@ -31,8 +33,9 @@ public class TopicosController {
 	@Autowired
 	CursoRepository cursoRepository;
 	 
+	
 	@GetMapping
-	public List<TopicoDTO> lista(String nomeCurso){//URI com parametro: /topicos?nomeCurso=Murillo
+	public List<TopicoDTO> lista(String nomeCurso){//URI com parametro com ?: /topicos?nomeCurso=Murillo (nesse caso não precisa do PathVariable)
 		
 		if (nomeCurso == null) {
 			return TopicoDTO.converter(topicoRepository.findAll());
@@ -40,6 +43,13 @@ public class TopicosController {
 			//URL com Filtro -> /topicos?nomeCurso=Spring+Boot (quando temos espaço, usamos + na url)
 			return TopicoDTO.converter(topicoRepository.findByCursoNome(nomeCurso));
 		}
+	}
+	
+	
+	@GetMapping("/{id}")//URL pronta -> /topicos/2 (id dinamico).. PathVariable já entende o param, pois está com o mesmo nome
+	public DetalhesTopicoDTO detalhar(@PathVariable Long id) {
+		Topico topico = topicoRepository.getOne(id);//Retorna 1 registro
+		return new DetalhesTopicoDTO(topico);
 	}
 	
 	
@@ -60,7 +70,6 @@ public class TopicosController {
 		
 		return ResponseEntity.created(uri).body(new TopicoDTO(topico));
 	}
-	
 	
 	
 	
