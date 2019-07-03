@@ -3,6 +3,10 @@ package br.com.pezzuka.forum.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +45,8 @@ public class TopicosController {
 	}
 	
 	
+	//@Valid -> Digo para ele rodar as validações do Bean Validation adicionadas na classe 'TopicoForm' através das tags (@NotNull, @NotEmpty etc...)
+	//Se o @Valid encontrar algum erro de validação o método nem executa e devolve um -> Status: 400 Bad Request
 	//ResponseEntity -> Usamos para retornamos os códigos de sucesso, criado etc.. 200, 201 etc...
 	//ResponseEntity.created -> É quando retornamos código 201... Porém 201 devemos retornar duas coisas
 	//1º CABEÇALHO (location, com a URI desse novo recurso)
@@ -48,7 +54,7 @@ public class TopicosController {
 	//Passamos a URI, que nós construimos através da injeção do Spring + a chamada para um método de busca por ID
 	//created -> Nós chamamos a URI que está os endereços de consulta + o recurso que acabmos de criar no Body, porém usando o DTO
 	@PostMapping
-	public ResponseEntity<TopicoDTO> cadastrar(@RequestBody TopicoForm form, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<TopicoDTO> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder) {
 		Topico topico = form.converter(cursoRepository);
 		topicoRepository.save(topico);
 		

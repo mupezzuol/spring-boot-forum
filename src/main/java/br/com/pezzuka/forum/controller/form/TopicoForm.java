@@ -1,13 +1,25 @@
 package br.com.pezzuka.forum.controller.form;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 import br.com.pezzuka.forum.model.Curso;
 import br.com.pezzuka.forum.model.Topico;
 import br.com.pezzuka.forum.repository.CursoRepository;
 
 public class TopicoForm {
 	
+	//Bean Validation faz integração com Spring (validando os dados que virão do form)
+	//Para ser chamado essas validações é preciso utilizar o '@Valid' 
+	@NotNull @NotEmpty @Length(min = 1, max = 100)
 	private String titulo;
+	
+	@NotNull @NotEmpty
 	private String mensagem;
+	
+	@NotNull @NotEmpty
 	private String nomeCurso;
 	
 	//Converter TopicoForm TO Topico
