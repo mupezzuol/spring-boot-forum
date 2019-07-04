@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
 	
-	
 	//Configurações de Autenticação (controle de acesso, login etc...)
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -25,7 +24,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.GET, "/topicos").permitAll()
-			.antMatchers(HttpMethod.GET, "/topicos/*").permitAll();
+			.antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
+			.anyRequest().authenticated()//Para as outras URL ele deverá estar autenticado
+			.and().formLogin();//Formulário padrão de Login do Spring Security
 	}
 	
 	
