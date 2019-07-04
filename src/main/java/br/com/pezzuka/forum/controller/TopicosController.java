@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,6 +67,15 @@ public class TopicosController {
 	}
 	
 	
+	@DeleteMapping("/{id}")
+	@Transactional
+	public ResponseEntity<?> remover(@PathVariable Long id) {
+		topicoRepository.deleteById(id);
+		return ResponseEntity.ok().build();//Retorna 200
+	}
+	
+	
+	
 	//@Valid -> Digo para ele rodar as validações do Bean Validation adicionadas na classe 'TopicoForm' através das tags (@NotNull, @NotEmpty etc...)
 	//Se o @Valid encontrar algum erro de validação o método nem executa e devolve um -> Status: 400 Bad Request
 	//ResponseEntity -> Usamos para retornamos os códigos de sucesso, criado etc.. 200, 201 etc...
@@ -75,6 +85,7 @@ public class TopicosController {
 	//Passamos a URI, que nós construimos através da injeção do Spring + a chamada para um método de busca por ID
 	//created -> Nós chamamos a URI que está os endereços de consulta + o recurso que acabmos de criar no Body, porém usando o DTO
 	@PostMapping
+	@Transactional
 	public ResponseEntity<TopicoDTO> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder) {
 		Topico topico = form.converter(cursoRepository);
 		topicoRepository.save(topico);
