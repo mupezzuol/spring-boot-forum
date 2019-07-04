@@ -1,6 +1,11 @@
-INSERT INTO USUARIO(nome, email, senha) VALUES('aluno', 'aluno@email.com', '123');
-INSERT INTO USUARIO(nome, email, senha) VALUES('admin', 'admin@gmail.com', 'admin');
-INSERT INTO USUARIO(nome, email, senha) VALUES('mu', 'mu@gmail.com', 'mu');
+-- BCrypt 
+-- admin -> $2a$10$DJr9REpKHS5SknDJxUwVPOXQ6SCI72qt5ki5vvYOa4ln3Hfrh67.u
+-- 1234  -> $2a$10$Ui91L7As0DQzgHiYwTsmv.BrnF9iBY2N3qPpbf/vR6cDAXUPAlqOK
+
+
+INSERT INTO USUARIO(nome, email, senha) VALUES('admin', 'admin', '$2a$10$DJr9REpKHS5SknDJxUwVPOXQ6SCI72qt5ki5vvYOa4ln3Hfrh67.u');
+INSERT INTO USUARIO(nome, email, senha) VALUES('mu', 'mu@gmail.com', '$2a$10$Ui91L7As0DQzgHiYwTsmv.BrnF9iBY2N3qPpbf/vR6cDAXUPAlqOK');
+INSERT INTO USUARIO(nome, email, senha) VALUES('aluno', 'aluno@email.com', '$2a$10$Ui91L7As0DQzgHiYwTsmv.BrnF9iBY2N3qPpbf/vR6cDAXUPAlqOK');
 
 INSERT INTO CURSO(nome, categoria) VALUES('Spring Boot', 'Programação');
 INSERT INTO CURSO(nome, categoria) VALUES('HTML 5', 'Front-end');

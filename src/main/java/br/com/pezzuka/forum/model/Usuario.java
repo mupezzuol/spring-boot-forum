@@ -23,7 +23,7 @@ public class Usuario implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	private String email;
+	private String email;//Login
 	private String senha;
 	
 	//ManyToManu por padrão não irá carregar essa lista de perfis, por isso uso o EAGER, para carregar a lista de perfis
