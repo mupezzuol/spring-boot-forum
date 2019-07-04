@@ -7,8 +7,8 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -50,6 +50,7 @@ public class TopicosController {
 	//@PageableDefault -> Se não for passado nenhuma config de paginação, ele pegará como 'default' essas configs...
 	//Se você não passar a pagina e qtd dará erro, pois eles são obrigatório
 	@GetMapping
+	@Cacheable(value = "listaDeTopicos")//Como se fosse ID -> Faz o cache automáticamente
 	public Page<TopicoDTO> lista(@RequestParam(required = false) String nomeCurso, 
 			@PageableDefault(sort = "id", direction = Direction.DESC) Pageable paginacao){
 		
