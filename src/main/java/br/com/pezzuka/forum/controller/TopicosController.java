@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -80,6 +81,7 @@ public class TopicosController {
 	
 	@PutMapping("/{id}")
 	@Transactional //Avisa o Spring a fazer o Commit no final da transação, assim ele faz o update do registro...
+	@CacheEvict(value = "listaDeTopicos", allEntries = true)//Toda vez que terminar o método ele limpa todos os registros desse cache setado
 	public ResponseEntity<TopicoDTO> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form) {
 		
 		Optional<Topico> optional = topicoRepository.findById(id);
@@ -96,6 +98,7 @@ public class TopicosController {
 	
 	@DeleteMapping("/{id}")
 	@Transactional
+	@CacheEvict(value = "listaDeTopicos", allEntries = true)//Toda vez que terminar o método ele limpa todos os registros desse cache setado
 	public ResponseEntity<?> remover(@PathVariable Long id) {
 		
 		Optional<Topico> optional = topicoRepository.findById(id);
@@ -120,6 +123,7 @@ public class TopicosController {
 	//created -> Nós chamamos a URI que está os endereços de consulta + o recurso que acabmos de criar no Body, porém usando o DTO
 	@PostMapping
 	@Transactional
+	@CacheEvict(value = "listaDeTopicos", allEntries = true)//Toda vez que terminar o método ele limpa todos os registros desse cache setado
 	public ResponseEntity<TopicoDTO> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder) {
 		Topico topico = form.converter(cursoRepository);
 		topicoRepository.save(topico);
