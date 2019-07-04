@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,11 +48,13 @@ public class TopicosController {
 	//Exemplo com paginação: /topicos?pagina=0&qtd=2 (Quem consome API que decide o esquema de paginação que será feito)
 	//Se você não passar a pagina e qtd dará erro, pois eles são obrigatório
 	@GetMapping
-	public Page<TopicoDTO> lista(@RequestParam(required = false) String nomeCurso, @RequestParam int pagina, @RequestParam int qtd){
+	public Page<TopicoDTO> lista(@RequestParam(required = false) String nomeCurso, @RequestParam int pagina, 
+			@RequestParam int qtd, String ordenacao){
 		
 		//Crio uma paginação, de acordo com a página e quantidade
 		//Alguns Métodos da JPARepository já aceitam Paginação
-		Pageable paginacao = new PageRequest(pagina, qtd);
+		//Ordenação passando o Direction (crescente ou decrescente) + varargs dos campos de ordenação
+		Pageable paginacao = new PageRequest(pagina, qtd, Direction.DESC, ordenacao);
 		
 		if (nomeCurso == null) {
 			return TopicoDTO.converter(topicoRepository.findAll(paginacao));
