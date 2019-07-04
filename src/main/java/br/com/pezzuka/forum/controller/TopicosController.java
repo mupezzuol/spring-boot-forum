@@ -2,6 +2,7 @@ package br.com.pezzuka.forum.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -51,27 +52,48 @@ public class TopicosController {
 	
 	
 	@GetMapping("/{id}")//URL pronta -> /topicos/2 (id dinamico).. PathVariable já entende o param, pois está com o mesmo nome
-	public DetalhesTopicoDTO detalhar(@PathVariable Long id) {
-		Topico topico = topicoRepository.getOne(id);//Retorna 1 registro
-		return new DetalhesTopicoDTO(topico);
+	public ResponseEntity<DetalhesTopicoDTO> detalhar(@PathVariable Long id) {
+		//Retorna 1 Optional, porém se deu erro não terá dado, não joga Exception no cliente
+	 	Optional<Topico> topico = topicoRepository.findById(id);
+	 	
+	 	//Se o Optinal tiver presente, tiver o Topico ele retorna o Detalhe
+	 	if(topico.isPresent()) {
+	 		return ResponseEntity.ok(new DetalhesTopicoDTO(topico.get()));//Usamos o .get() para pegar o Topico que está dentro do Optional
+	 	}
+	 	
+	 	//Se não retornou nada, forçamos um retorno de 404
+	 	return ResponseEntity.notFound().build();//Retorna 404
 	}
+	
 	
 	@PutMapping("/{id}")
 	@Transactional //Avisa o Spring a fazer o Commit no final da transação, assim ele faz o update do registro...
 	public ResponseEntity<TopicoDTO> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form) {
 		
-		//Não preciso chamar o atualização do JpaRepository, pois ao sair do método da Controller ele fará o update automático no banco
-		Topico topico = form.atualizar(id, topicoRepository);
+		Optional<Topico> optional = topicoRepository.findById(id);
 		
-		return ResponseEntity.ok(new TopicoDTO(topico));
+	 	if(optional.isPresent()) {
+	 		//Não preciso chamar o atualização do JpaRepository, pois ao sair do método da Controller ele fará o update automático no banco
+			Topico topico = form.atualizar(id, topicoRepository);
+	 		return ResponseEntity.ok(new TopicoDTO(topico));
+	 	}
+		
+	 	return ResponseEntity.notFound().build();//Retorna 404
 	}
 	
 	
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<?> remover(@PathVariable Long id) {
-		topicoRepository.deleteById(id);
-		return ResponseEntity.ok().build();//Retorna 200
+		
+		Optional<Topico> optional = topicoRepository.findById(id);
+		
+		if(optional.isPresent()) {
+			topicoRepository.deleteById(id);
+			return ResponseEntity.ok().build();//Retorna 200
+		}
+		
+		return ResponseEntity.notFound().build();//Retorna 404
 	}
 	
 	
