@@ -2,6 +2,8 @@ package br.com.pezzuka.forum.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,7 +17,7 @@ public interface TopicoRepository extends JpaRepository<Topico, Long> {
 	//Nesse exemplo estamos filtrando atráves de um atributo que está dentro de uma classe que está sendo relacionada dentro da nossa Entidade
 	//Caso você tenha uma tributo na classe Topico que se chama 'cursoNome' você deverá avisar o spring para tratar essa igualdade
 	//Tratando ambiguidade -> findByCurso_Nome (utilizando o _ você indica que o Curso é um Entidade e após o _ é o atributo dentro dele)
-	List<Topico> findByCursoNome(String nomeCurso);
+	Page<Topico> findByCursoNome(String nomeCurso, Pageable paginacao);
 
 	
 	//Para criar métodos personalizado, com nome na assinatura diferente do disponibilizados nós devemos criar a Query

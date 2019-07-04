@@ -1,13 +1,15 @@
 package br.com.pezzuka.forum.controller;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -39,14 +42,22 @@ public class TopicosController {
 	CursoRepository cursoRepository;
 	 
 	
+	//URI com parametro com ?: /topicos?nomeCurso=Murillo (nesse caso não precisa do PathVariable)
+	//@RequestParam -> digo para o Spring que os dados virão através de parametro da URL, conforme acima
+	//Exemplo com paginação: /topicos?pagina=0&qtd=2 (Quem consome API que decide o esquema de paginação que será feito)
+	//Se você não passar a pagina e qtd dará erro, pois eles são obrigatório
 	@GetMapping
-	public List<TopicoDTO> lista(String nomeCurso){//URI com parametro com ?: /topicos?nomeCurso=Murillo (nesse caso não precisa do PathVariable)
+	public Page<TopicoDTO> lista(@RequestParam(required = false) String nomeCurso, @RequestParam int pagina, @RequestParam int qtd){
+		
+		//Crio uma paginação, de acordo com a página e quantidade
+		//Alguns Métodos da JPARepository já aceitam Paginação
+		Pageable paginacao = new PageRequest(pagina, qtd);
 		
 		if (nomeCurso == null) {
-			return TopicoDTO.converter(topicoRepository.findAll());
+			return TopicoDTO.converter(topicoRepository.findAll(paginacao));
 		}else {
 			//URL com Filtro -> /topicos?nomeCurso=Spring+Boot (quando temos espaço, usamos + na url)
-			return TopicoDTO.converter(topicoRepository.findByCursoNome(nomeCurso));
+			return TopicoDTO.converter(topicoRepository.findByCursoNome(nomeCurso, paginacao));
 		}
 	}
 	
