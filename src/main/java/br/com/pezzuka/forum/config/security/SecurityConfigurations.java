@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity // -> Habilitando o Web Security
 @Configuration
@@ -47,8 +48,11 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.POST, "/auth").permitAll()//URL de Login
 			.anyRequest().authenticated()//Para as outras URL ele deverá estar autenticado
 			.and().csrf().disable()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//Setamos a sessão como STATELESS ao invés do default que é sessão
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//Setamos a sessão como STATELESS ao invés do default que é sessão
 			
+			//Aviso para o Spring que antes dele executar o Filter padrão do Spring que é 'UsernamePasswordAuthenticationFilter'
+			//ele deverá passar pelo filtro de Autenticação de Token que nós criamos o 'AutenticacaoViaTokenFilter'
+			.and().addFilterBefore(new AutenticacaoViaTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	
