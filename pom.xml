@@ -56,11 +56,22 @@
 		    <version>0.9.1</version>
 		</dependency>
 
-		<!-- Spring Security Actuator - Monitoração -->
+
+		<!-- MONITORAMENTO DA API -->
+		<!-- Spring Security Actuator -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+		
+		<!-- Spring Boot Admin - Client -->
+		<!-- Necessita da aplicação server -->
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+			<version>2.1.6</version>
+		</dependency>
+		
 		
 <!-- 		<dependency> -->
 <!-- 			<groupId>io.springfox</groupId> -->
@@ -74,11 +85,6 @@
 <!-- 			<version>2.9.2</version> -->
 <!-- 		</dependency> -->
 		
-<!-- 		<dependency> -->
-<!-- 			<groupId>de.codecentric</groupId> -->
-<!-- 			<artifactId>spring-boot-admin-starter-client</artifactId> -->
-<!-- 			<version>2.1.4</version> -->
-<!-- 		</dependency> -->
 
 <!-- 		<dependency> -->
 <!-- 			<groupId>io.jsonwebtoken</groupId> -->
