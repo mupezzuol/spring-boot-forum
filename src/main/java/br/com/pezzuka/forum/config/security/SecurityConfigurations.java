@@ -55,6 +55,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
 			.antMatchers(HttpMethod.POST, "/auth").permitAll()//URL de Login
 			.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
 			.anyRequest().authenticated()//Para as outras URL ele deverá estar autenticado
 			.and().csrf().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//Setamos a sessão como STATELESS ao invés do default que é sessão
@@ -68,6 +69,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	//Configurações de Recursos Estáticos (Acesso a CSS, JavaScript, Imagens etc...)
 	@Override
 	public void configure(WebSecurity web) throws Exception {
+		//Liberar endereços para o Swagger
+		web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
 	}
 	
 	
