@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import br.com.pezzuka.forum.model.Usuario;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -49,6 +51,14 @@ public class TokenService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+
+	public Long getIdUsuario(String token) {
+		//Corpo do Token (propriedade do Token que setamos)
+		Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
+		
+		return Long.parseLong(claims.getSubject());
 	}
 
 	
