@@ -37,5 +37,19 @@ public class TokenService {
 				.compact();//Retorna nosso Token
 	}
 
+
+	public boolean isValidoToken(String token) {
+		//Valido meu token, passando minha chave key + meu token atual
+		//Ele faz o parser necessário e descriptografa para saber se está válido
+		//Se for válido ele retorna um objeto, ou seja, continua e cai no TRUE
+		//Se for inválido ele lança uma Exception e vai no FALSE
+		try {
+			Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	
 }

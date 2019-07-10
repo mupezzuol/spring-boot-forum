@@ -21,6 +21,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	@Autowired
 	AutenticacaoService autenticacaoService;//Implementa um 'UserDetailsService'
 	
+	@Autowired
+	private TokenService tokenService;//Chamo no nosso filter, pois em classe de Filter não é permitido injeção de dependencia
 	
 	//Aviso o Spring, pois usaremos a injeção de dependencia desse cara, que precisa ser sobrescrito pois o Spring não faz a injeção de dependencia dele
 	@Override
@@ -52,7 +54,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 			
 			//Aviso para o Spring que antes dele executar o Filter padrão do Spring que é 'UsernamePasswordAuthenticationFilter'
 			//ele deverá passar pelo filtro de Autenticação de Token que nós criamos o 'AutenticacaoViaTokenFilter'
-			.and().addFilterBefore(new AutenticacaoViaTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+			.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	
