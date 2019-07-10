@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.pezzuka.forum.config.security.TokenService;
+import br.com.pezzuka.forum.dto.TokenDTO;
 import br.com.pezzuka.forum.form.LoginForm;
 
 //Controller de Login
@@ -31,7 +32,7 @@ public class AutenticacaoController {
 	
 	
 	@PostMapping
-	public ResponseEntity<?> autenticar(@RequestBody @Valid LoginForm form){
+	public ResponseEntity<TokenDTO> autenticar(@RequestBody @Valid LoginForm form){
 		
 		//Convertemos os dados do Form para um OBJ do Spring de Autentição
 		UsernamePasswordAuthenticationToken dadosLogin = form.converter();
@@ -43,9 +44,8 @@ public class AutenticacaoController {
 			//Geramos nosso Token
 			String token = tokenService.gerarToken(authenticate);
 			
-			System.out.println(token);
-			
-			return ResponseEntity.ok().build();//OK -> Login autenticado com sucesso
+			//OK -> Login autenticado com sucesso
+			return ResponseEntity.ok(new TokenDTO(token, "Bearer"));//Retorno o TOKEN + TIPO (para token é utilizado o Bearer)
 		} catch (AuthenticationException e) {
 			return ResponseEntity.badRequest().build();//404
 		}
