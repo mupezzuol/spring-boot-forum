@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.pezzuka.forum.controller.form.AtualizacaoTopicoForm;
-import br.com.pezzuka.forum.controller.form.TopicoForm;
+import br.com.pezzuka.forum.form.AtualizacaoTopicoForm;
+import br.com.pezzuka.forum.form.TopicoForm;
 import br.com.pezzuka.forum.dto.DetalhesTopicoDTO;
 import br.com.pezzuka.forum.dto.TopicoDTO;
 import br.com.pezzuka.forum.model.Topico;

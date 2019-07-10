@@ -1,4 +1,4 @@
-package br.com.pezzuka.forum.controller.form;
+package br.com.pezzuka.forum.form;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

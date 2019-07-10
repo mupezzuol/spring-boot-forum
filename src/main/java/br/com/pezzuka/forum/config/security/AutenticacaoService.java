@@ -17,7 +17,6 @@ public class AutenticacaoService implements UserDetailsService{
 	@Autowired
 	UsuarioRepository usuarioRepository;
 	
-	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
@@ -31,7 +30,6 @@ public class AutenticacaoService implements UserDetailsService{
 		
 		throw new UsernameNotFoundException("Login ou Senha inválidos!");
 	}
-	
 	
 	
 }
