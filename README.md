@@ -8,7 +8,23 @@ Project built with Spring Boot as a way of learning and testing some Spring tech
 
 ## About the project <a name="about"></a> :link:
 
-The project was developed using _`Spring Boot (2.1.5.RELEASE)`_, so it was adopted an architecture based on microservices using all the power of Spring Cloud and its technologies. When we are working with Spring we have several advantages for gaining technologies and solutions already ready to be implemented, so we made use of some of them.
+Follow the technologies and solutions present in this project below:
+
+- Java 8 + Spring Boot 2.1.6.RELEASE;
+- Spring Boot DevTools;
+- Spring Data;
+- Creation of REST API;
+- Bean Validation;
+- Using all HTTP verbs and dealing with possible errors;
+- Pageable (pagination and ordering);
+- Spring Cache;
+- Spring Security + JWT;
+- Spring Actuator;
+- API documentation with Swagger.
+
+#### Postman
+
+- To perform the services tests, follow the file _`spring-boot-murillo-pezzuol.postman_collection.json`_ to be imported into Postman located at the root of the repository.
 
 ## License <a name="license"></a> :clipboard:
 
